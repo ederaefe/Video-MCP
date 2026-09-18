@@ -20,13 +20,7 @@
 
 ---
 
-> [!NOTE]
-> **Video-MCP Integration Notice**: This subfolder is the active VEDIT timeline editing engine integrated into the [Video-MCP Workspace](../README.md).
-> - **Upstream Source**: [metiu1/editorvideo-ai](https://github.com/metiu1/editorvideo-ai)
-> - **Backup Repository**: [ederaefe/Video-MCP](https://github.com/ederaefe/Video-MCP) (branch `vedit` and folder `vedit/`)
-> - **Weekly Synchronization**: Run `powershell scripts/sync-to-backup.ps1` from the VEDIT directory.
-
----
+## What it is
 
 vedit is a video editor. The ordinary kind: a timeline, video and audio tracks, clips you
 drag, cut, speed up, colour-grade and fade into each other.
