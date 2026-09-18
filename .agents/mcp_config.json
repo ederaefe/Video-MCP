@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "mcp-video": {
+      "command": "mcp-video",
+      "args": []
+    }
+  }
+}
