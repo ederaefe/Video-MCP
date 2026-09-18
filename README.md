@@ -17,17 +17,24 @@ This workspace serves as the primary hub for agent-assisted video editing using 
 
 ## 2. Directory Structure and Project Organization
 
-Each video editing task begins by creating a distinct folder inside this workspace:
+Each video editing task begins by creating a distinct folder inside this workspace, supported by the integrated `vedit` engine:
 
 ```text
 mcp-video/
 ├── README.md                          # Workspace operations and workflow manual
 ├── documentation.md                   # Permanent technical architecture reference
-└── <project_name>/                    # Dedicated folder for a specific video project
-    ├── raw/                           # Original footage, background music, assets
-    ├── previews/                      # Storyboard grids, frame grabs, waveforms
-    ├── output/                        # Exported final clips, platform cuts
-    └── metadata/                      # Captions (.srt), quality logs, checkpoints
+├── vedit/                             # VEDIT timeline editor engine (Web UI, 77 MCP tools, ffmpeg graph compiler)
+│   ├── backend/                       # Python backend, Store, Model, Graph compiler, REST/WS API
+│   ├── frontend/                      # React/Vite timeline user interface
+│   ├── scripts/                       # Setup, diagnostics, and sync automation
+│   ├── tests/                         # Full automated test suite
+│   └── README.md                      # VEDIT-specific manual and architectural reference
+└── projects/
+    └── <project_name>/                # Dedicated folder for a specific video project
+        ├── raw/                       # Original footage, background music, assets
+        ├── previews/                  # Storyboard grids, frame grabs, waveforms
+        ├── output/                    # Exported final clips, platform cuts
+        └── metadata/                  # Captions (.srt), quality logs, checkpoints
 ```
 
 ---
@@ -122,8 +129,20 @@ For manual checks from the terminal:
 
 ## 6. Backup & Synchronization Strategy
 
-Progress in this repository is synchronized weekly to the remote backup vault:
-- **Remote**: `origin` -> `https://github.com/ederaefe/Video-MCP`
-- **Cadence**: Weekly checkpoint push (every 7 days) capturing updated skills, pipeline scripts, documentation, and metadata receipts.
-- **Excluded**: Volatile intermediate cache files and multi-gigabyte temporary render artifacts (managed via `.gitignore`).
+Progress in this repository is synchronized weekly to the remote backup vault at [https://github.com/ederaefe/Video-MCP](https://github.com/ederaefe/Video-MCP) using a **Dual-Track Architecture**:
+
+1. **Integrated Subfolder (`main` branch -> `vedit/`)**: The complete, runnable VEDIT engine is directly committed and browsable on the `main` branch under `vedit/`.
+2. **Dedicated Mirror Branch (`vedit` branch)**: Pristine 1:1 Git commit history from the upstream VEDIT repository is mirrored to `refs/heads/vedit`.
+3. **Automated Weekly Sync Script**: Run the following command from the `vedit` directory to trigger the full sync and remote push:
+
+```powershell
+# From the VEDIT directory:
+powershell scripts/sync-to-backup.ps1 -AutoCommit
+```
+
+This single command:
+- Checks and commits pending working changes in VEDIT.
+- Pushes `main` to `backup:vedit` on GitHub.
+- Mirrors clean files into `mcp-video/vedit/` (omitting `.venv`, `node_modules`, and temporary render artifacts).
+- Commits and pushes the updated `mcp-video` workspace to `origin/main`.
 

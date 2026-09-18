@@ -142,6 +142,26 @@ The workspace provides a dedicated static repository analysis tool (`.agent/skil
 - **Backup Policy**: Weekly progress commits capturing updated skills, scaffolding configurations, pipeline scripts, documentation, and metadata receipts.
 - **Exclusion Filters**: Defined in `.gitignore` to prevent committing transitory processing files, local virtual environments, OS metadata, and intermediate rendering scratchpads.
 
+---
+
+## 9. VEDIT Subsystem Integration & Dual-Track Backup Lineage
+
+### 9.1 Architectural Role
+`vedit` serves as the non-linear timeline editor and deterministic composition backend within the Video-MCP ecosystem. Unlike purely prompt-driven video toolsets, VEDIT maintains a strictly typed JSON state model compiled into single-pass FFmpeg filtergraphs with transactional undo/redo and an embedded React/Vite timeline UI.
+
+### 9.2 Dual-Track Synchronization Architecture
+To achieve optimal resilience, zero-breakage cloning, and pristine history preservation without the pitfalls of Git Submodules:
+1. **Track 1: Integrated Monorepo Subfolder (`vedit/`)**:
+   - Committed directly to `main` branch under `vedit/`.
+   - Contains all backend engines, graph compilers, React timeline frontends, test suites, and operational scripts.
+   - Stripped of runtime caches (`.venv`, `node_modules`, `dist`, `__pycache__`) to maintain a clean git footprint.
+2. **Track 2: Dedicated Upstream Mirror Branch (`vedit`)**:
+   - Maintained at `https://github.com/ederaefe/Video-MCP/tree/vedit`.
+   - Preserves 100% of the granular commit history, commit authorship, and branch pointers from the active VEDIT workspace.
+3. **Automated Weekly Script (`scripts/sync-to-backup.ps1`)**:
+   - Single-command execution (`powershell scripts/sync-to-backup.ps1 -AutoCommit`) that synchronizes both Track 1 and Track 2 in sequence, generating an atomic weekly backup checkpoint.
+
+
 
 
 
