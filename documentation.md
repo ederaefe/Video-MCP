@@ -132,5 +132,16 @@ The workspace provides a dedicated static repository analysis tool (`.agent/skil
   - `skills/mcp-video/SKILL.md`: Authoritative workflow contract and CLI/MCP mapping.
   - `skills/mcp-video/agents/openai.yaml`: Agent invocation policy and interface definition.
 
+---
+
+## 8. Backup & Version Control Lineage
+
+### 8.1 Primary Vault Integration
+- **Remote Endpoint**: `https://github.com/ederaefe/Video-MCP.git`
+- **Active Branch**: `main` (tracking `origin/main`).
+- **Backup Policy**: Weekly progress commits capturing updated skills, scaffolding configurations, pipeline scripts, documentation, and metadata receipts.
+- **Exclusion Filters**: Defined in `.gitignore` to prevent committing transitory processing files, local virtual environments, OS metadata, and intermediate rendering scratchpads.
+
+
 
 
