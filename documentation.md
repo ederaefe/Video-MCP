@@ -161,7 +161,51 @@ To achieve optimal resilience, zero-breakage cloning, and pristine history prese
 3. **Automated Weekly Script (`scripts/sync-to-backup.ps1`)**:
    - Single-command execution (`powershell scripts/sync-to-backup.ps1 -AutoCommit`) that synchronizes both Track 1 and Track 2 in sequence, generating an atomic weekly backup checkpoint.
 
+---
 
+## 10. Automated Narration & Classical Audio Multiplexing Pipeline
 
+### 10.1 Pipeline Architecture
+The narration and background score integration workflow allows appending synthesized vocal narratives and classical musical beds to silent or raw footage without degrading or re-encoding the video bitstream:
 
+```text
+[Subtitles / Dialogue Source]
+            |
+            v
+[Witty Synopsis Generator]
+            |
+            v
+[Speech Synthesis Engine (Edge-TTS / Neural)]
+            |
+            +---------------------------------------+
+            |                                       |
+            v                                       v
+[Spoken Voiceover Track]              [Public Domain Classical Bed (Mozart)]
+    (67.8s @ 24kHz)                          (Eine kleine Nachtmusik)
+            |                                       |
+            +-------------------+-------------------+
+                                |
+                                v
+                [Filtergraph: Dynamic Ducking]
+                 - Lead-in offset: +3.5s
+                 - Voiceover window: -14 dB ducking
+                 - Post-narration: Musical swell
+                 - Terminal fade: 3.76s at 91.0s
+                                |
+                                v
+               [EBU R128 Loudness Normalizer]
+                 - Integrated: -16.4 LUFS
+                 - True Peak: -1.5 dBFS
+                 - Target LRA: 7.9 LU
+                                |
+                                v
+                   [Bitstream Multiplexer]
+                 - Video: Direct stream copy (-c:v copy)
+                 - Audio: AAC 192kbps stereo (-c:a aac)
+                 - Final Container: projects/<name>/output/
+```
 
+### 10.2 Quality & Safety Controls
+- **Bitstream Preservation**: Zero frame recalculation ensures native resolution, framerate, and compression artifacts remain unaltered.
+- **Dynamic Headroom Management**: Automating volume gain curves prevents vocal masking and avoids distortion clipping.
+- **Metric Verification**: Automated preflight and `metric-qc` checks ensure zero black frames, duration synchronization, and loudness compliance within standard broadcast thresholds (-16.5 LUFS).

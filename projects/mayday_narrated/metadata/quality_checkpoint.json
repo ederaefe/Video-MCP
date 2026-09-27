@@ -1,0 +1,39 @@
+{
+  "artifact_kind": "metric_qc",
+  "finding_count": 4,
+  "findings": [
+    {
+      "check_id": "duration.min",
+      "severity": "info",
+      "message": "duration 94.760s ok",
+      "evidence": {
+        "duration": 94.76
+      }
+    },
+    {
+      "check_id": "black_frames.ratio",
+      "severity": "info",
+      "message": "black ratio 0.000 ok",
+      "evidence": {
+        "black_ratio": 0.0
+      }
+    },
+    {
+      "check_id": "audio.lufs",
+      "severity": "info",
+      "message": "integrated LUFS \u2248 -16.51",
+      "evidence": {
+        "integrated_lufs": -16.51
+      }
+    },
+    {
+      "check_id": "av_sync.proxy",
+      "severity": "info",
+      "message": "AV-sync deep probe not claimed",
+      "evidence": {
+        "available": false
+      }
+    }
+  ],
+  "fail_count": 0
+}
